@@ -3,50 +3,52 @@ const { GoatWrapper } = require("fca-liane-utils");
 module.exports = {
   config: {
     name: "profile",
-    aliases: ["pp"],
-    version: "1.1",
-    author: "NIB",
+    aliases: ["pp", "pfp"],
+    version: "1.2",
+    author: "NIB (fixed by Mahbub Ullash)",
     countDown: 5,
     role: 0,
-    shortDescription: "PROFILE image",
-    longDescription: "PROFILE image",
+    shortDescription: "Facebook profile picture",
+    longDescription: "See anyone's Facebook profile picture (self/reply/mention/link).",
     category: "image",
     guide: {
-      en: "   {pn} @tag or reply to see profile picture"
+      en: "{pn} [reply/@mention/link]"
     }
   },
 
-  langs: {
-    vi: {
-      noTag: "Bạn phải tag người bạn muốn tát"
-    },
-    en: {
-      noTag: "You must tag the person you want to get profile picture of"
-    }
-  },
+  onStart: async function ({ api, event, args, message, usersData }) {
+    try {
+      let uid;
 
-  onStart: async function ({ event, message, usersData }) {
-    let avt;
-    const uid1 = event.senderID;
-    const uid2 = Object.keys(event.mentions)[0];
-
-    if (event.type === "message_reply") {
-      avt = await usersData.getAvatarUrl(event.messageReply.senderID);
-    } else {
-      if (!uid2) {
-        avt = await usersData.getAvatarUrl(uid1);
-      } else {
-        avt = await usersData.getAvatarUrl(uid2);
+      if (event.type === "message_reply" && event.messageReply?.senderID) {
+        uid = event.messageReply.senderID;
       }
-    }
 
-    return message.reply({
-      body: "",
-      attachment: await global.utils.getStreamFromURL(avt)
-    });
+      else if (event.mentions && Object.keys(event.mentions).length > 0) {
+        uid = Object.keys(event.mentions)[0];
+      }
+
+      else if (args[0] && args[0].includes(".com/")) {
+        uid = await api.getUID(args[0]);
+      }
+
+      else {
+        uid = event.senderID;
+      }
+
+      const name = await usersData.getName(uid);
+
+      const imageUrl = `https://graph.facebook.com/${uid}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
+
+      return message.reply({
+        body: ` `,
+        attachment: await global.utils.getStreamFromURL(imageUrl)
+      });
+    } catch (e) {
+      return message.reply("⚠️");
+    }
   }
 };
 
-// ✅ Enable No-Prefix
 const wrapper = new GoatWrapper(module.exports);
 wrapper.applyNoPrefix({ allowPrefix: true });
