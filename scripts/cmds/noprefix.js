@@ -11,6 +11,7 @@ module.exports = {
 	},
    
 	onChat: async function ({ event, message }) {
+  ifonChat: async function ({ event, message }) {
   if (!event.body) return;
 
   const msg = event.body.toLowerCase();
@@ -20,7 +21,8 @@ module.exports = {
 
   // 👑 শুধু তুমি লিখলে
   if (String(event.senderID) === OWNER_ID) {
-    return message.reply("yes boss 😎");
+    await message.reply("yes boss 😎");
+    return;
   }
 
   // 🤖 অন্য সবার জন্য autoreply
@@ -30,10 +32,6 @@ module.exports = {
       reply: "Walikumassalam"
     },
     {
-      keyullash: ["kemon aso", "কেমন আছো"],
-      reply: "আমি ভালো আছি, আলহামদুলিল্লাহ 🙂"
-    },
-    {
       keyullash: ["tafir", "tafir vai"],
       reply: "Boss akhn busy ase 🙂 ki bolben amk bolen"
     }
@@ -41,7 +39,9 @@ module.exports = {
 
   for (const item of qaList) {
     if (item.keyullash.some(kw => msg.includes(kw))) {
-      return message.reply(item.reply);
+      await message.reply(item.reply);
+      return;
     }
   }
+}
 	}
