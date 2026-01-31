@@ -13,34 +13,36 @@ module.exports = {
 	onChat: async function ({ event, message }) {
   if (!event.body) return;
 
-  const msg = event.body.toLowerCase();
+  const msg = event.body.trim().toLowerCase();
 
-  // 🔐 OWNER UID (নিজের UID ঠিক রাখো)
+  // 🔐 তোমার UID
   const OWNER_ID = "61579347293903";
 
-  // 👑 শুধু তুমি লিখলে
-  if (String(event.senderID) === OWNER_ID) {
+  // 👑 তুমি লিখলে "bot" (যেভাবেই লেখো)
+  if (
+    String(event.senderID) === OWNER_ID &&
+    msg.includes("bot")
+  ) {
     await message.reply("yes boss 😎");
     return;
   }
 
-  // 🤖 অন্য সবার জন্য autoreply
+  // 🤖 অন্য সবার + তোমার normal autoreply
   const qaList = [
     {
       keyullash: ["assalamualaikum", "আসসালামু আলাইকুম"],
       reply: "Walikumassalam"
     },
     {
-      keyullash: ["tafir", "tafir vai"],
+      keyullash: ["tafir"],
       reply: "Boss akhn busy ase 🙂 ki bolben amk bolen"
     }
   ];
 
   for (const item of qaList) {
-    if (item.keyullash.some(kw => msg.includes(kw))) {
+    if (item.keyullash.some(k => msg.includes(k))) {
       await message.reply(item.reply);
       return;
     }
   }
 }
-	}
