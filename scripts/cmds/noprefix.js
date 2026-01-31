@@ -11,7 +11,6 @@ module.exports = {
 	},
    
 	onChat: async function ({ event, message }) {
-  ifonChat: async function ({ event, message }) {
   if (!event.body) return;
 
   const msg = event.body.toLowerCase();
