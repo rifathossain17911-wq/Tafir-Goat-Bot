@@ -10,6 +10,12 @@ module.exports = {
         category: "fun",
     },
     onStart: async function ({ api, event }) {
+        const path = require("path");
+
+const cacheDir = path.join(__dirname, "cache");
+if (!fs.existsSync(cacheDir)) {
+    fs.mkdirSync(cacheDir, { recursive: true });
+}
         let pathImg = __dirname + "/cache/background.png";
         let pathAvt1 = __dirname + "/cache/Avtmot.png";
         let pathAvt2 = __dirname + "/cache/Avthai.png";
