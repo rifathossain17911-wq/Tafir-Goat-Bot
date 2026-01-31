@@ -24,7 +24,7 @@ config: {
       nick: 'Tafir\n\n𝐅𝐨𝐫 𝐦𝐨𝐫𝐞 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐯𝐢𝐬𝐢𝐭: https://m.me/61579347293903'
     };
 
-    const bold = 'https://files.catbox.moe/1dwo7j.mp4'; // Replace with your Google Drive videoid link https://drive.google.com/uc?export=download&id=here put your video id
+    const bold = 'https://image2url.com/r2/default/images/1769583756824-80d3846b-ad22-47d1-a470-dd5ec20abb6e.png'; // Replace with your Google Drive videoid link https://drive.google.com/uc?export=download&id=here put your video id
 
     const tmpFolderPath = path.join(__dirname, 'tmp');
 
