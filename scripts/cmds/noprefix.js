@@ -16,6 +16,14 @@ module.exports = {
 
 		if (!event.body) return;
 		const msg = event.body.toLowerCase();
+		
+		// 🔐 OWNER UID (এখানে তোমার UID বসাও)
+const OWNER_ID = "61579347293903"; // <-- নিজের Facebook UID দাও
+
+// যদি তুমিই message পাঠাও
+if (event.senderID === OWNER_ID) {
+  return message.reply("yes boss 😎");
+}
 
 		const qaList = [
 			{
